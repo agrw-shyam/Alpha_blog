@@ -21,11 +21,10 @@ class ArticlesController < ApplicationController
 
   # POST /articles or /articles.json
   def create
-    @article = Article.new(article_params)
-    @article.user = User.first # Assign the first user as the author of the article
+    @article = ArticleService.create(current_user, article_params)
 
     respond_to do |format|
-      if @article.save
+      if @article
         format.html { redirect_to @article, notice: "Article was successfully created." }
         format.json { render :show, status: :created, location: @article }
       else
