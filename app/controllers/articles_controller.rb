@@ -4,6 +4,14 @@ class ArticlesController < ApplicationController
   # GET /articles or /articles.json
   def index
     @articles = Article.all
+    if params[:search].present?
+    # Filter articles by checking if the title or description contains the search term
+    # On MySQL/SQLite, 'LIKE' or 'ILIKE' is used for partial matching
+    @articles = Article.where("title LIKE ? OR description LIKE ?", "%#{params[:search]}%", "%#{params[:search]}%")
+  else
+    # Default behavior: fetch all articles if no search query is typed
+    @articles = Article.all
+  end
   end
 
   # GET /articles/1 or /articles/1.json
@@ -21,15 +29,18 @@ class ArticlesController < ApplicationController
 
   # POST /articles or /articles.json
   def create
-    @article = ArticleService.create(current_user, article_params)
+    # 1. Hand off all the creation work to our Service Object
+    @article = ArticleService.call(current_user, article_params)
 
+    # 2. Check the object state to determine the response routing
     respond_to do |format|
-      if @article
+      if @article.persisted? # Returns true if it successfully saved to the database
         format.html { redirect_to @article, notice: "Article was successfully created." }
         format.json { render :show, status: :created, location: @article }
       else
-        format.html { render :new, status: :unprocessable_content }
-        format.json { render json: @article.errors, status: :unprocessable_content }
+        # If it failed, @article still holds all validation errors for the form view
+        format.html { render :new, status: :unprocessable_entity }
+        format.json { render json: @article.errors, status: :unprocessable_entity }
       end
     end
   end

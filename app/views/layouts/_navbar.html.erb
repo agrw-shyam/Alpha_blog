@@ -1,32 +1,46 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <%= link_to "ALPHA BLOG", root_path, class: "navbar-brand", id: "logo" %>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
+  <%= link_to "ALPHA BLOG", root_path, class: "navbar-brand", id: "logo" %>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-              <%= link_to "Bloggers", users_path, class: "nav-link" %>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Articles
-              </a>
-              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <%= link_to "Create new article", new_article_path, class: "dropdown-item" %>
-                <%= link_to "View articles", articles_path, class: "dropdown-item" %>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">Something else here</a>
-              </div>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-            </li>
-          </ul>
-          <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form>
-    </div>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <%= link_to "Bloggers", users_path, class: "nav-link" %>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Articles
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <%= link_to "Create new article", new_article_path, class: "dropdown-item" %>
+          <%= link_to "View articles", articles_path, class: "dropdown-item" %>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="#">Something else here</a>
+        </div>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+      </li>
+    </ul>
+    
+    <% unless current_page?(root_path) || current_page?(login_path) %>
+      <%= form_with(url: articles_path, method: :get, local: true, class: "form-inline my-2 my-lg-0") do |form| %>
+        <%= form.text_field :search, value: params[:search], placeholder: "Search", class: "form-control mr-sm-2", "aria-label": "Search" %>
+        <%= form.submit "Search", class: "btn btn-outline-success my-2 my-sm-0" %>
+      <% end %>
+    <% end %>
+  </div>
+
+  <div>
+    <% if logged_in? %>
+      <%= button_to "Log Out", logout_path, method: :delete, class: "btn btn-danger" %>
+    <% else %>
+      <% unless current_page?(root_path) || current_page?(login_path) %>
+        <%= link_to "Log In", login_path, class: "btn btn-outline-primary" %>
+        <%= link_to "Sign Up", signup_path, class: "btn btn-outline-primary" %>
+      <% end %>
+    <% end %>
+  </div>
 </nav>

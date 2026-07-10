@@ -1,16 +1,16 @@
 class ArticleService < ApplicationService
-
-
-  def create(author, article_params)
-
-    @article = author.articles.build(article_params) #.create
+  def self.call(author, params)
+    # 1. Instantiates the object in-memory with the author's foreign key pre-filled
+    article = author.articles.build(params)
     
-    if @article.save
-      # 2. Put extra business logic here (e.g., NotifySubscribersJob.perform_later(@article))
-      puts "🎉 Business logic executed inside Service Object!"
-      @article
-    else
-      false
+    # 2. Attempts to save it to the database
+    if article.save
+      # Place your background jobs or side-effects here safely!
+      # e.g., NotifySubscribersJob.perform_later(article)
+      puts "🎉 Extra business logic executed!"
     end
+
+    # 3. Always return the object (saved or unsaved) back to the controller
+    article
   end
 end
