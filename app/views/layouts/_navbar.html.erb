@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <%= link_to "ALPHA BLOG", root_path, class: "navbar-brand", id: "logo" %>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
+    <span class="navbar-toggler-icon" style="filter: invert(1) brightness(100%);"></span>
   </button>
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -23,10 +23,6 @@
           <a class="dropdown-item" href="#">Something else here</a>
         </div>
       </li>
-      <li class="nav-item">
-        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-      </li>
-
     
     <% if logged_in? %>
       <li class="nav-item dropdown">
@@ -36,9 +32,15 @@
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
           <%= link_to "View your profile", user_path(current_user), class: "dropdown-item" %>
           <%= link_to "Edit your profile", edit_user_path(current_user), class: "dropdown-item" %>
+
+          <%= button_to "delete profile", user_path(current_user), 
+            method: :delete, 
+            class: "dropdown-item text-danger", 
+            onclick: "return confirm('Are you sure you want to delete your profile?');" %>
+
         </div>
       </li>
-
+      
       <%= button_to "Log Out", logout_path, method: :delete, class: "btn btn-danger" %>
       
     <% else %>
@@ -47,7 +49,6 @@
       <%= link_to "Sign Up", signup_path, class: "btn btn-outline-primary" %>
       <% end %>
     <% end %>
-
     </ul>
   </div>
 
