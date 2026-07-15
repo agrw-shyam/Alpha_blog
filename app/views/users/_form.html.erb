@@ -24,6 +24,11 @@
           </div>
         </div>
 
+        <div class="field">
+          <%= f.label :image_upload, "Upload Image" %>
+          <%= f.file_field :image_upload %>
+        </div>
+
         <div class="form-group row justify-content-center">
           <%= f.submit(@user.new_record? ? "Sign Up" : "Update Profile", class: "btn btn-outline-light btn-lg") %>
         </div>

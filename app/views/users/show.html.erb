@@ -1,6 +1,12 @@
-<h1 class="text-center mt-4"><%= @user.username %>'s Profile</h1>
-<%= gravatar_for(@user, size: 200) %>
-
+<%#> http://127.0.0.1:3000/users/2
+    User show page is a page that displays the profile of a specific user. It shows the user's username, profile picture, 
+    and lists all the articles written by the user. If the logged-in user is viewing their own profile, they have the option 
+    to edit their profile. The page is styled using Bootstrap classes for a clean and responsive layout.
+<%>
+<div align="center">
+  <h1 class="text-center mt-4"><%= @user.username %>'s Profile</h1>
+  <%= profile_for(@user, size: 200) %>
+</div>
 <% if logged_in? && @user == current_user %>
   <div class="text-center mt-4">
     <%= link_to "Edit your profile", edit_user_path(@user), class: "btn btn-outline-info" %>

@@ -1,5 +1,11 @@
 <h1 class="text-center mt-4">Alpha Bloggers</h1>
 
+<%#> http://127.0.0.1:3000/users 
+    Bloggers page is a page that lists all the users of the application. It displays each user's username, 
+    profile picture, number of articles they have written, and provides links to view their profile or edit their profile 
+    if the logged-in user is viewing their own profile. The page is styled using Bootstrap classes for a clean and responsive layout.
+<%>
+
 <div class="container">
   <% @users.each do |user| %>
     <div class="row justify-content-md-center">
@@ -10,7 +16,7 @@
           </div>
           <div class="card-body">
             <h5 class="card-title">
-              <%= link_to gravatar_for(user, size: 150), user %>
+              <%= link_to profile_for(user, size: 150), user %>
             </h5>
             <p class="card-text"><%= pluralize(user.articles.count, "article") %></p>
             <%= link_to "View profile", user, class: "btn btn-outline-success" %>

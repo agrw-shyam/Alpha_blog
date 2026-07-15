@@ -1,11 +1,17 @@
+<%#> http://127.0.0.1:3000/articles/1
+    Article show page is a page that displays the details of a specific article. It shows the article's title, description, 
+    author information, and provides options to edit or delete the article if the logged-in user is the author. 
+    The page is styled using Bootstrap classes for a clean and responsive layout.
+<%>
+
 <h2 class="text-center mt-4"><%= @article.title %></h2>
 <div class="container">
   <div class="row justify-content-md-center">
     <div class="col-8 mt-4">
       <div class="card text-center shadow mb-5 bg-white rounded">
         <div class="card-header font-italic">
+          <%= link_to profile_for(@article.user, size: 50), user_path(@article.user) %><br>
           by <%= @article.user.username %>
-          <%= link_to gravatar_for(@article.user), user_path(@article.user) %>
         </div>
         <div class="card-body">
           <div class="card-text text-left"><%= simple_format(@article.description) %></div>

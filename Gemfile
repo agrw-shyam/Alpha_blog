@@ -71,3 +71,6 @@ gem "cssbundling-rails", "~> 1.4"
 gem "sassc-rails"
 gem 'bootstrap', '~> 4.4.1'
 gem 'jquery-rails'
+
+# Force an older, stable version of mimemagic that works on Windows
+gem 'carrierwave', '~> 3.0'
