@@ -15,6 +15,11 @@
         </div>
         <div class="card-body">
           <div class="card-text text-left"><%= simple_format(@article.description) %></div>
+          <% if @article.image_upload.present? %>
+            <div class="card-img-top-container">
+              <%= image_tag @article.image_upload.url, class: "img-fluid rounded-top", alt: @article.title %>
+            </div>
+          <% end %>
           <% if logged_in? && @article.user == current_user %>
             <%= link_to "Edit", edit_article_path(@article), class: "btn btn-outline-info" %>
             <%= link_to "Delete", article_path(@article), class: "btn btn-outline-danger", method: :delete, data: {confirm: "Are you sure?"} %>

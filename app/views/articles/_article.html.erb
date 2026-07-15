@@ -10,6 +10,15 @@
           </div>
           <div class="card-body">
             <h5 class="card-title"><%= link_to article.title, article_path(article), class: "text-success" %></h5>
+            
+            <div align="center">
+              <% if article.image_upload.present? %>
+                <div class="col-md-4">
+                  <%= image_tag article.image_upload.url, class: "card-img img-fluid h-100", style: "object-fit: cover;", alt: article.title %>
+                </div>
+              <% end %>
+            </div>           
+
             <p class="card-text"><%= truncate(article.description, length: 100) %></p>
             <%= link_to "View", article_path(article), class: "btn btn-outline-success" %>
             <% if logged_in? && article.user == current_user %>
