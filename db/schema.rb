@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_07_15_113928) do
+ActiveRecord::Schema[7.1].define(version: 2026_07_21_124020) do
   create_table "articles", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "title"
     t.text "description"
@@ -27,6 +27,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_15_113928) do
     t.datetime "updated_at", null: false
     t.string "password_digest"
     t.string "image_upload"
+    t.boolean "admin", default: false
   end
 
 end

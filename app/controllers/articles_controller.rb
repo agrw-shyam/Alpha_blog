@@ -1,5 +1,5 @@
 class ArticlesController < ApplicationController
-  before_action :set_article, only: %i[ show edit update destroy ]
+  before_action :set_article, only: %i[show edit update destroy]
   before_action :require_user, except: [:show, :index]
   before_action :require_same_user, only: [:edit, :update, :destroy]
 
@@ -62,11 +62,18 @@ class ArticlesController < ApplicationController
 
   # DELETE /articles/1 or /articles/1.json
   def destroy
-    @article.destroy!
+    author = @article.user
+    article_title = @article.title
+    was_admin_deletion = current_user.admin? && current_user != author
 
-    respond_to do |format|
-      format.html { redirect_to articles_path, notice: "Article was successfully destroyed.", status: :see_other }
-      format.json { head :no_content }
+    if @article.destroy
+      # Trigger mailer if an admin deletes another user's article
+      if was_admin_deletion
+        UserMailer.article_deleted(author, article_title).deliver_now
+      end
+
+      flash[:notice] = "Article was successfully deleted."
+      redirect_to articles_path
     end
   end
 
@@ -82,7 +89,7 @@ class ArticlesController < ApplicationController
     end
 
     def require_same_user
-      if current_user != @article.user
+      if current_user != @article.user && !current_user.admin?
         flash[:alert] = "You can only edit or delete your own article"
         redirect_to @article
       end
